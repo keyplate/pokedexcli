@@ -6,6 +6,13 @@ import (
     "os"
 )
 
+type Config struct {
+    next *string
+    prev *string
+}
+
+var config Config = Config{ next: nil, prev: nil }
+
 func start() {
     fmt.Println("##################################")
     fmt.Println("#                                #")
@@ -32,7 +39,7 @@ func execute(commandName string) error {
     if !ok {
         return fmt.Errorf("Unknown command, use 'help' to see list of commands")
     }
-    err := command.callback()
+    err := command.callback(&config)
     if err != nil {
         return err
     }

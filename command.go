@@ -1,14 +1,9 @@
 package main
 
-import (
-    "fmt"
-    "os"
-)
-
 type Command struct {
     name string
     description string
-    callback func() error
+    callback func(config *Config) error
 }
 
 func getCommands() map[string]Command {
@@ -23,17 +18,15 @@ func getCommands() map[string]Command {
             description: "Exit the Pokedex",
             callback: commandExit,
         },
+        "map" : {
+            name: "map",
+            description: "Get a list of locations",
+            callback: commandMap,
+        },
+        "mapb" : {
+            name: "mapb",
+            description: "Return to previous list of locations",
+            callback: commandMapb,
+        },
     }
-}
-
-func commandHelp() error {
-    for _, command := range getCommands() {
-        fmt.Printf("# %s: %s\n", command.name, command.description);    
-    }
-    return nil
-}
-
-func commandExit() error {
-    os.Exit(0)
-    return nil
 }
