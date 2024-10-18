@@ -103,3 +103,44 @@ func FetchLocationArea(locationArea string) (LocationAreaResp, error) {
     
     return locationAreaResp, nil
 }
+
+type PokemonResp struct {
+    ID             int    `json:"id"`
+    Name           string `json:"name"`
+    BaseExperience int    `json:"base_experience"`
+}
+
+func FetchPokemon(pokemonName string) (PokemonResp, error) {
+    fullUrl := baseUrl + "/pokemon/" + pokemonName
+
+    dat, ok := pokeCache.Get(fullUrl)
+    if ok {
+        pokemonResp := PokemonResp{}
+        err := json.Unmarshal(dat, &pokemonResp)
+        if err != nil {
+            return PokemonResp{}, err
+        }
+        return pokemonResp, nil
+    }
+
+    resp, err := http.Get(fullUrl)
+    if err != nil {
+        return PokemonResp{}, fmt.Errorf("Fetchin pokemon returned an error: %v", err)
+    }
+
+    dat, err = io.ReadAll(resp.Body)
+    if err != nil {
+        return PokemonResp{}, err
+    }
+
+    pokemonResp := PokemonResp{}
+    err = json.Unmarshal(dat, &pokemonResp)
+    if err != nil {
+        return PokemonResp{}, fmt.Errorf("Decoding pokemon data returned an error: %v", err)
+    }
+
+    pokeCache.Add(fullUrl, dat)
+
+    return pokemonResp, nil
+
+}
