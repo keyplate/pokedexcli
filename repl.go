@@ -4,6 +4,7 @@ import (
     "bufio"
     "fmt"
     "os"
+    "strings"
 )
 
 type Config struct {
@@ -34,15 +35,16 @@ func start() {
     }
 }
 
-func execute(commandName string) error {
+func execute(input string) error {
     commands :=  getCommands()
-
-    command, ok := commands[commandName]
+    
+    commandAndArgs := strings.Split(input, " ")
+    command, ok := commands[commandAndArgs[0]]
     if !ok {
         return fmt.Errorf("Unknown command, use 'help' to see list of commands")
     }
 
-    err := command.callback(&config)
+    err := command.callback(commandAndArgs[1:], &config)
     if err != nil {
         return err
     }

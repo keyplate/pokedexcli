@@ -5,7 +5,7 @@ import (
     "github.com/keyplate/pokedexcli/internal/api"
 )
 
-func commandMapb(config *Config) error {
+func commandMapb(args []string, config *Config) error {
     url := config.prev
 
     locations, err := api.FetchMaps(url)

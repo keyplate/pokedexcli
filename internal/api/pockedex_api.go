@@ -61,12 +61,6 @@ func FetchMaps(url *string) (LocationAreaPageResp, error) {
 }
 
 type LocationAreaResp struct {
-    ID                   int    `json:"id"`
-    Name                 string `json:"name"`
-    GameIndex            int    `json:"game_index"`
-    EncounterMethodRates *string `json:"encounter_method_rates"`
-    Location *string `json:"location"`
-    Names *string `json:"names"`
     PokemonEncounters []struct {
         Pokemon struct {
             Name string `json:"name"`
@@ -78,7 +72,7 @@ type LocationAreaResp struct {
 
 func FetchLocationArea(locationArea string) (LocationAreaResp, error) {
     fullUrl := baseUrl + "/location-area/" + locationArea
-
+    
     dat, ok := pokeCache.Get(fullUrl)
     if ok {
         locationAreaResp := LocationAreaResp{}
@@ -102,10 +96,10 @@ func FetchLocationArea(locationArea string) (LocationAreaResp, error) {
     locationAreaResp := LocationAreaResp{}
     err = json.Unmarshal(dat, &locationAreaResp)
     if err != nil {
-        return LocationAreaResp{}, fmt.Errorf("Decoding location datat returned an error: %v", err)
+        return LocationAreaResp{}, fmt.Errorf("Decoding location data returned an error: %v", err)
     }
 
     pokeCache.Add(fullUrl, dat)
-
+    
     return locationAreaResp, nil
 }
