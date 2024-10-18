@@ -26,6 +26,7 @@ func start() {
         scanner.Scan()
         input := scanner.Text()
         fmt.Println()
+
         err := execute(input)
         if err != nil {
             fmt.Println(err)
@@ -35,13 +36,16 @@ func start() {
 
 func execute(commandName string) error {
     commands :=  getCommands()
+
     command, ok := commands[commandName]
     if !ok {
         return fmt.Errorf("Unknown command, use 'help' to see list of commands")
     }
+
     err := command.callback(&config)
     if err != nil {
         return err
     }
+
     return nil
 }
