@@ -5,14 +5,16 @@ import (
     "fmt"
     "os"
     "strings"
+    "github.com/keyplate/pokedexcli/internal/api"
 )
 
 type Config struct {
     next *string
     prev *string
+    pokedex map[string]api.PokemonResp
 }
 
-var config Config = Config{ next: nil, prev: nil }
+var config Config
 
 func start() {
     fmt.Println("##################################")
@@ -20,7 +22,8 @@ func start() {
     fmt.Println("#       Welkome to Pokedex       #")
     fmt.Println("#                                #")
     fmt.Println("##################################")
-
+    
+    config = Config{ next: nil, prev: nil, pokedex: map[string]api.PokemonResp{} }
     scanner := bufio.NewScanner(os.Stdin)
     for {
         fmt.Print("pokedex > ")

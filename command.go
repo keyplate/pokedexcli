@@ -30,8 +30,18 @@ func getCommands() map[string]Command {
         },
         "explore" : {
             name: "explore",
-            description: "Explore location for pokemon encounters\n## args - [locationArea] (required)",
+            description: "Explore location for pokemon encounters\n## args - [locationArea]",
             callback: commandExplore,
         },
+        "catch": {
+            name: "catch",
+            description: "Tries to capture provided pokemon\n## args - [pokemonName]",
+            callback: commandCatch,
+        },
+        "inspect": {
+            name: "inspect",
+            description: "Show information about the given pokemon, if it was previously encountered\n## args - [pokemonName]",
+            callback: commandInspect,
+        }, 
     }
 }
